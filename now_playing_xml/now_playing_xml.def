@@ -1,0 +1,9 @@
+; now_playing_xml.def : Declares the module parameters.
+
+LIBRARY      "NOW_PLAYING_XML.DLL"
+
+EXPORTS
+	DllCanUnloadNow     PRIVATE
+	DllGetClassObject   PRIVATE
+	DllRegisterServer   PRIVATE
+	DllUnregisterServer	PRIVATE
