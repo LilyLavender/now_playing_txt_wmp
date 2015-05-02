@@ -21,8 +21,8 @@ free within the Windows 7 Development framework.
 Before doing a proper compile make sure you have the following items
 installed and ready to go in your system.
 
-* Microsoft Visual C++ 2010 (or higher)
-* Microsoft Visual Studio SP1
+* Microsoft Visual C++ 2010 Express Edition (or higher)
+* Microsoft Visual Studio Express Edition SP1
 * Windows 7 Software Development Kit
 * Windows 7 Driver Development Kit
 
