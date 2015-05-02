@@ -6,18 +6,24 @@ A very minimal "Now Playing" XML generating plugin for Windows Media Player.
 
 The motivation for writing this plugin was quite simple, a very simple
 python script[1] for updating the current music track that you are
-listening to in your media player. Originally the script was written
-for Linux, but since I hang around Windows machines a lot I thought of
-extending the original script to work with Windows Media Player (WMP).
+listening to in your media player to an IRC channel was developed by a
+Rajiv. Originally the script was written for Linux for Amarok based
+back-end and later on extended for a mpd based back-end, but since I
+hang around Windows machines a lot I thought of extending the original
+script to work with Windows Media Player (WMP).
 
 In order for the python script to read the data from WMP it needed to
 retrieve data on the fly from it and since I did not find a direct way
-to do it and the nearest solution was a paid plugin[2] for WMP. I
-decided to write a simple WMP plugin using the tools available for
-free within the Windows 7 Development framework.
+to do it, I looked around for a plugin that could generate the current
+track data in some sort of XML format from WMP and the nearest
+solution was a paid plugin[2] for WMP. I decided to write a simple WMP
+plugin using the tools available for free within the Windows 7
+Development framework that would get the job done without any
+restrictions imposed on me by this paid plugin.
 
-A special thanks to the Last.fm scrobbling application[3] hosted in github, that
-helped me understand and implement the WMP SDK from the Windows 7 SDK framework.
+A special thanks to the Last.fm scrobbling application[3] hosted in
+github, that helped me understand and implement the WMP SDK from the
+Windows 7 SDK framework.
 
 ### How to compile 
 
