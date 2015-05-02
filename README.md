@@ -16,6 +16,9 @@ to do it and the nearest solution was a paid plugin[2] for WMP. I
 decided to write a simple WMP plugin using the tools available for
 free within the Windows 7 Development framework.
 
+A special thanks to the Last.fm scrobbling application[3] hosted in github, that
+helped me understand and implement the WMP SDK from the Windows 7 SDK framework.
+
 ### How to compile 
 
 Before doing a proper compile make sure you have the following items
@@ -75,3 +78,4 @@ The XML structure is as follows.
 
 [1] - https://github.com/fraggerfox/music_bot
 [2] - http://brandon.fuller.name/archives/2004/09/14/11.05.20/
+[3] - https://github.com/lastfm/lastfm-desktop/blob/master/plugins/wmp
