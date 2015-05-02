@@ -82,6 +82,6 @@ The XML structure is as follows.
 
 ### References
 
-[1] - https://github.com/fraggerfox/music_bot
-[2] - http://brandon.fuller.name/archives/2004/09/14/11.05.20/
-[3] - https://github.com/lastfm/lastfm-desktop/blob/master/plugins/wmp
+* [1] - https://github.com/fraggerfox/music_bot
+* [2] - http://brandon.fuller.name/archives/2004/09/14/11.05.20/
+* [3] - https://github.com/lastfm/lastfm-desktop/blob/master/plugins/wmp
