@@ -44,6 +44,33 @@ the dll after compilation is done
 
 ``` regsvr32 /s "C:\Program Files (x86)\Windows Media Player\Plugins\now_playing_xml.dll" ```
 
+### How it works
+
+Currently it creates a file in ``` D:\ ``` Drive (because I hard-coded it), that
+contains the following items in an XML format.
+
+* Track Name
+* Album Name
+* Artist Name
+* Player State (e.g. paused, stopped, playing)
+
+The XML structure is as follows.
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<now_playing_track>
+  <title>Some Title/title>
+  <artist>Some Artist</artist>
+  <album>Some Album</album>
+  <player_state>playing</player_state>
+</now_playing_track>
+```
+
+### TODO
+
+1. Make the path of the output file more configurable.
+2. Provide a better XML parsing library.
+
 ### References
 
 [1] - https://github.com/fraggerfox/music_bot
