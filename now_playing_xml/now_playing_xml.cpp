@@ -175,6 +175,7 @@ HRESULT CNow_playing_xml::CreateXMLFile(const WCHAR *pwszFilePath)
 	ofsTrackDataXML << "  <title>Track Title</title>" << endl;
 	ofsTrackDataXML << "  <artist>Artist Name</artist>" << endl;
 	ofsTrackDataXML << "  <album>Album Name</album>" << endl;
+	ofsTrackDataXML << "  <duration>Track Duration</duration>" << endl;
 	ofsTrackDataXML << "  <player_state>Current state of the player</player_state>" << endl;
 	ofsTrackDataXML << "</now_playing_track>" << endl;
 
@@ -194,6 +195,7 @@ void CNow_playing_xml::UpdateXMLFile(const WCHAR *pwszFilePath, const long NewSt
 
 	BSTR bstrValue;
 	char *pszPlayerState;
+	double dDuration;
 
 	ofsTrackDataXML.open (pwszFilePath, ios::out | ios::binary);
 
@@ -217,6 +219,8 @@ void CNow_playing_xml::UpdateXMLFile(const WCHAR *pwszFilePath, const long NewSt
 	CW2A pszAlbum(pStrAlbum);
 	ofsTrackDataXML << "  <album>"<< pszAlbum <<"</album>" << endl;
 
+	pCurrentMedia->get_duration(&dDuration);
+	ofsTrackDataXML << "  <duration>"<< dDuration <<"</duration>" << endl;
 
 	switch(NewState) {
 		case wmppsStopped:
