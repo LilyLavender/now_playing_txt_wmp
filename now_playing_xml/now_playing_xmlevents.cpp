@@ -86,6 +86,7 @@ void CNow_playing_xml::PlayStateChange( long NewState )
     case wmppsWaiting:
         break;
     case wmppsMediaEnded:
+        CNow_playing_xml::UpdateXMLFile(CNow_playing_xml::m_wszPluginText, NewState);
         break;
     case wmppsTransitioning:
         break;

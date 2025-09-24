@@ -1,6 +1,23 @@
-# Now Playing (XML)
+# Now Playing (TXT)
+A very minimal "Now Playing" TXT generating plugin for Windows Media Player.
 
-A very minimal "Now Playing" XML generating plugin for Windows Media Player.
+## Forked from...
+Forked from [fraggerfox's now_playing_xml](https://github.com/fraggerfox/now_playing_xml). This project edits the original xml format:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<now_playing_track>
+  <title>Some Title</title>
+  <artist>Some Artist</artist>
+  <album>Some Album</album>
+  <duration>Track Length</duration>
+  <player_state>playing</player_state>
+</now_playing_track>
+```
+Into a very minimal txt, for use in OBS:
+```
+Artist - Song Title 
+```
+Everything from here on through the References section is unedited from the original repo. Some notes about my findings on the project will be at the very end.
 
 ### Introduction
 
@@ -58,23 +75,6 @@ the dll after compilation is done
 Currently it creates a file in ``` D:\ ``` Drive (because I hard-coded it), that
 contains the following items in an XML format.
 
-* Track Name
-* Album Name
-* Artist Name
-* Player State (e.g. paused, stopped, playing)
-
-The XML structure is as follows.
-
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<now_playing_track>
-  <title>Some Title/title>
-  <artist>Some Artist</artist>
-  <album>Some Album</album>
-  <player_state>playing</player_state>
-</now_playing_track>
-```
-
 ### TODO
 
 1. Make the path of the output file more configurable.
@@ -85,3 +85,15 @@ The XML structure is as follows.
 * [1] - https://github.com/fraggerfox/music_bot
 * [2] - http://brandon.fuller.name/archives/2004/09/14/11.05.20/
 * [3] - https://github.com/lastfm/lastfm-desktop/blob/master/plugins/wmp
+
+### Lily's notes
+I'm not 100% sure if this was the best use of my day, but my thought process of this needing to exist is this:
+- There's no easy way to get a song overlay in OBS when using Windows Media Player Legacy
+  - [Tuna](https://github.com/univrsal/tuna) exists, but doesn't have compatibility for WMP. Since WMP doesn't change the window title like other programs do, we can't even use Tuna's "window title" mode.
+  - A Python or C# script that gets data from WMP won't work. win32com is really our only hope, but we can't gain control of the current instance of WMP to get information from it. If we try to create a new instance we *can* control with win32com, it'll be a COM instance that can't be interacted with and only useful for getting information on arbitrary audio files.
+  - A .dll built with C# won't work. From my research, a plug-in class needs to inherit from IWMPPluginUI, and I don't have access to that class in Windows 11 and even if I did, making the dll COM-visible didn't work, so WMP ignored it.
+  - Windows' SMTC allows us to get the data from the currently playing media (ie a YouTube video in Chrome). However, WMP data doesn't appear in SMTC.
+- This project already exists, even if it's rather old. Updating it was a bit of a pain and I did lose the ability for the properties window in WMP to appear in the center of the screen because my version of atlwin.h gave errors.
+- I could've just built the original project and then made an additional Python script to get the data from the XML and put it into another txt for OBS to use, but I didn't like the idea of having to run an extra script while streaming if I don't have to.
+- As it was a bit of a hassle to install C++ devtools with Visual Studio and edit the program to work well on Windows 11, the releases tab has not only the txt version built with the current code in this repo, but also as close as I can get to the original XML version.
+- fraggerfox is still active today, but I doubt this project is still being updated. If anyone comes across this and has any questions, either contact them or me at Discord @LilyLambda or lilylambda136@gmail.com

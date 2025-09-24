@@ -166,21 +166,10 @@ HRESULT CNow_playing_xml::SetProperty(const WCHAR *pwszName, const VARIANT *pvar
 
 HRESULT CNow_playing_xml::CreateXMLFile(const WCHAR *pwszFilePath)
 {
-	ofstream ofsTrackDataXML;
-	
-	ofsTrackDataXML.open (pwszFilePath, ios::out | ios::binary);
-
-	ofsTrackDataXML << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-	ofsTrackDataXML << "<now_playing_track>" << endl;
-	ofsTrackDataXML << "  <title>Track Title</title>" << endl;
-	ofsTrackDataXML << "  <artist>Artist Name</artist>" << endl;
-	ofsTrackDataXML << "  <album>Album Name</album>" << endl;
-	ofsTrackDataXML << "  <duration>Track Duration</duration>" << endl;
-	ofsTrackDataXML << "  <player_state>Current state of the player</player_state>" << endl;
-	ofsTrackDataXML << "</now_playing_track>" << endl;
-
-	ofsTrackDataXML.close();
-	return S_OK;
+    ofstream ofsTrackDataXML(pwszFilePath, ios::out | ios::binary);
+    ofsTrackDataXML << "";
+    ofsTrackDataXML.close();
+    return S_OK;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -189,58 +178,58 @@ HRESULT CNow_playing_xml::CreateXMLFile(const WCHAR *pwszFilePath)
 
 void CNow_playing_xml::UpdateXMLFile(const WCHAR *pwszFilePath, const long NewState)
 {
-	ofstream ofsTrackDataXML;
+    ofstream ofsTrackDataXML(pwszFilePath, ios::out | ios::binary);
 
-	CComPtr<IWMPMedia> pCurrentMedia;	
+    // If not playing, blank file
+    if (NewState != wmppsPlaying)
+    {
+        ofsTrackDataXML << "";
+        ofsTrackDataXML.close();
+        return;
+    }
 
-	BSTR bstrValue;
-	char *pszPlayerState;
-	double dDuration;
+    if (m_spCore == NULL)
+    {
+        ofsTrackDataXML << "";
+        ofsTrackDataXML.close();
+        return;
+    }
 
-	ofsTrackDataXML.open (pwszFilePath, ios::out | ios::binary);
+    CComPtr<IWMPMedia> pCurrentMedia;
+    if (FAILED(m_spCore->get_currentMedia(&pCurrentMedia)) || !pCurrentMedia)
+    {
+        ofsTrackDataXML << "";
+        ofsTrackDataXML.close();
+        return;
+    }
 
-	ofsTrackDataXML << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-	ofsTrackDataXML << "<now_playing_track>" << endl;
+    BSTR bstrValue;
+    string artistStr;
+    string titleStr;
 
-	m_spCore->get_currentMedia(&pCurrentMedia);
+    // Artist
+    if (SUCCEEDED(pCurrentMedia->getItemInfo(L"Artist", &bstrValue)) && bstrValue)
+    {
+        COLE2T pStrArtist(bstrValue);
+        CW2A pszArtist(pStrArtist);
+        artistStr = pszArtist;
+        ::SysFreeString(bstrValue);
+    }
 
-	pCurrentMedia->getItemInfo(L"Title", &bstrValue);
-	COLE2T pStrTrack(bstrValue);
-	CW2A pszTrack(pStrTrack);
-	ofsTrackDataXML << "  <title>"<< pszTrack <<"</title>" << endl;
+    // Title
+    if (SUCCEEDED(pCurrentMedia->getItemInfo(L"Title", &bstrValue)) && bstrValue)
+    {
+        COLE2T pStrTrack(bstrValue);
+        CW2A pszTrack(pStrTrack);
+        titleStr = pszTrack;
+        ::SysFreeString(bstrValue);
+    }
 
-	pCurrentMedia->getItemInfo(L"Artist", &bstrValue);
-	COLE2T pStrArtist(bstrValue);
-	CW2A pszArtist(pStrArtist);
-	ofsTrackDataXML << "  <artist>"<< pszArtist <<"</artist>" << endl;
+    // Write in "{artist} - {title}" format
+    if (!artistStr.empty() || !titleStr.empty())
+    {
+        ofsTrackDataXML << artistStr << " - " << titleStr;
+    }
 
-	pCurrentMedia->getItemInfo(L"Album", &bstrValue);
-	COLE2T pStrAlbum(bstrValue);
-	CW2A pszAlbum(pStrAlbum);
-	ofsTrackDataXML << "  <album>"<< pszAlbum <<"</album>" << endl;
-
-	pCurrentMedia->get_duration(&dDuration);
-	ofsTrackDataXML << "  <duration>"<< dDuration <<"</duration>" << endl;
-
-	switch(NewState) {
-		case wmppsStopped:
-			pszPlayerState = "stopped";
-			break;
-		case wmppsPaused:
-			pszPlayerState = "paused";
-			break;
-		case wmppsPlaying:
-			pszPlayerState = "playing";
-			break;
-		default:
-			// We handle only Stopped / Pause / Playing states
-			pszPlayerState = "playing";
-			break;
-	}
-	
-	ofsTrackDataXML << "  <player_state>"<< pszPlayerState << "</player_state>" << endl;
-	ofsTrackDataXML << "</now_playing_track>" << endl;
-
-	ofsTrackDataXML.close();
+    ofsTrackDataXML.close();
 }
-

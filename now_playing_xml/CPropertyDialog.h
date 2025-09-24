@@ -26,7 +26,7 @@ public:
 
     LRESULT OnInitDialog( UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& fHandled )
     {
-        CenterWindow();
+        // CenterWindow(); // commenting out because my version of atlwin.h errored here and I'm too lazy to fix it
         // initialize text
         SetDlgItemText(IDC_MESSAGEEDIT, m_pPlugin->m_wszPluginText);
         return 1;

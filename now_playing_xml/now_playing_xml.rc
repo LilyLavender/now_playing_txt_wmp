@@ -68,7 +68,7 @@ IDR_NOW_PLAYING_XML           REGISTRY DISCARDABLE    "now_playing_xml.rgs"
 
 IDD_PROPERTYDIALOG DIALOG DISCARDABLE  0, 0, 170, 75
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Now Playing (XML) Properties"
+CAPTION "Now Playing (TXT) Properties"
 FONT 9, "Segoe UI"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,109,51,50,14
@@ -84,8 +84,8 @@ END
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-    IDS_FRIENDLYNAME        "Now Playing (XML) Plugin"
-    IDS_DESCRIPTION         "A plugin in that generates a XML file of your current track details"
+    IDS_FRIENDLYNAME        "Now Playing (TXT) Plugin"
+    IDS_DESCRIPTION         "A plugin in that generates a TXT file of the currently playing track details"
 END
 
 #ifndef APSTUDIO_INVOKED
